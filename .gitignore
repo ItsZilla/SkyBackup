@@ -25,6 +25,7 @@ logs/
 # === Backup zips ===
 output/
 *.zip
+backup_temp/
 
 # === VSCode & IDE ===
 .vscode/

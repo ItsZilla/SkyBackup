@@ -1,15 +1,29 @@
-import os
-import zipfile
+import subprocess
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 
 def zip_dir(folder_path, output_path):
     logger.info(f"Creating zip archive: {output_path}")
-    with zipfile.ZipFile(output_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
-        for root, dirs, files in os.walk(folder_path):
-            for file in files:
-                filepath = os.path.join(root, file)
-                arcname = os.path.relpath(filepath, folder_path)
-                zipf.write(filepath, arcname)
-    logger.info("Zip archive created.")
+
+    # Ensure output_path has .zip extension
+    if not output_path.lower().endswith(".zip"):
+        output_path += ".zip"
+
+    # Remove existing zip if it already exists
+    if os.path.exists(output_path):
+        os.remove(output_path)
+
+    try:
+        # Use PowerShell Compress-Archive (faster than Python zipfile)
+        subprocess.run([
+            "powershell",
+            "Compress-Archive",
+            "-Path", f"{folder_path}\\*",    # Important: backslash and * to include contents
+            "-DestinationPath", output_path
+        ], check=True)
+        logger.info("Zip archive created successfully using Compress-Archive.")
+    except subprocess.CalledProcessError as e:
+        logger.exception("❌ Failed to create zip archive with Compress-Archive.")
+        raise

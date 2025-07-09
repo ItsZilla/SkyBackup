@@ -2,15 +2,10 @@ import os
 import fnmatch
 import logging
 
-from config import BACKUPIGNORE_FILE
-
 logger = logging.getLogger(__name__)
 
 def read_ignore_patterns():
-    if not os.path.exists(BACKUPIGNORE_FILE):
-        logger.warning(f"{BACKUPIGNORE_FILE} not found. No patterns loaded.")
-        return []
-    with open(BACKUPIGNORE_FILE, 'r') as f:
+    with open("backupignore.txt", "r", encoding="utf-8") as f:
         lines = [line.strip() for line in f if line.strip() and not line.startswith("#")]
     return lines
 

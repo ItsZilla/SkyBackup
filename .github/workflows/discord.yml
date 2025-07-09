@@ -1,0 +1,42 @@
+name: Discord Commit Changelog
+
+on: [push]
+
+jobs:
+  webhook-request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract commit info
+        id: commit_info
+        run: |
+          COMMIT_LINES=""
+          while IFS= read -r line; do
+            # Replace newlines inside commit messages with spaces
+            CLEANED=$(echo "$line" | tr '\n' ' ' | tr -s ' ')
+            # Prefix each line with "+ " for Discord diff formatting
+            COMMIT_LINES="${COMMIT_LINES}+ ${CLEANED}"$'\n'
+          done < <(jq -r '.commits[].message' "$GITHUB_EVENT_PATH")
+
+          COMMIT_URL=$(jq -r .head_commit.url "$GITHUB_EVENT_PATH")
+
+          {
+            echo "commits<<EOF"
+            echo "$COMMIT_LINES"
+            echo "EOF"
+            echo "url=$COMMIT_URL"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Send Discord Notification
+        uses: rjstone/discord-webhook-notify@v1
+        with:
+          severity: info
+          username: GitHub
+          color: '#74e8a6'
+          description: |
+            [**New Commit**](${{ steps.commit_info.outputs.url }}) `${{ github.repository }}`
+            ```diff
+            ${{ steps.commit_info.outputs.commits }}
+            ```
+          footer: ${{ github.actor }} @ ${{ github.ref_name }}
+          text: <@&1376595755103551558>
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}

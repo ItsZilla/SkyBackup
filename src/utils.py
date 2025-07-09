@@ -2,7 +2,6 @@ import shutil
 import os
 import glob
 import logging
-from config import KEEP_LAST_N_LOGS
 
 logger = logging.getLogger(__name__)
 
@@ -13,6 +12,7 @@ def clean_folder(folder_path):
 
 def cleanup_old_logs():
     log_files = sorted(glob.glob("logs/backup_*.log"), key=os.path.getmtime, reverse=True)
+    KEEP_LAST_N_LOGS = int(os.getenv("KEEP_LAST_N_LOGS"))
     if len(log_files) <= KEEP_LAST_N_LOGS:
         return
 
