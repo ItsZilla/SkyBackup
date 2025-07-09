@@ -1,0 +1,51 @@
+# --- General log and crash files ---
+logs/
+*.log
+crash-reports/
+debug/
+timings/
+*.tmp
+core.*
+
+# --- Essentials ---
+plugins/Essentials/backups/
+
+# --- Plugin-specific folders often safe to ignore (adjust if needed) ---
+plugins/LibsDisguises/updates/
+plugins/PlaceholderAPI/expansions/
+
+# --- FastAsyncWorldEdit cache (usually large and rebuildable) ---
+plugins/FastAsyncWorldEdit/.clipboard/
+plugins/FastAsyncWorldEdit/schematics/ # ← Keep if you store your builds here!
+
+# --- HeadDatabase cache ---
+plugins/HeadDatabase/cache/
+
+# --- DecentHolograms temp data ---
+plugins/DecentHolograms/temp/
+
+# --- CoreProtect update files ---
+plugins/CoreProtect/updates/
+
+# --- RoseStacker data if not needed (optional) ---
+plugins/RoseStacker/temp/
+
+# --- Temporary update folders common to many plugins ---
+plugins/*/update/
+plugins/*/updates/
+
+# --- Common plugin config backups, adjust if you use them ---
+backup/
+old/
+config_old/
+
+# --- World backups inside server folder (if you have separate world backups) ---
+world_backups/
+*.bak
+
+# --- Additional folders you might add later ---
+# plugins/Essentials/userdata/ # if you do not want per-player data (usually keep!)
+
+# --- Example: ignore plugin jar backups if any ---
+*.jar.backup
+*.zip

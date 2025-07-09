@@ -1,0 +1,39 @@
+# === Python cache & environment ===
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+*.env
+
+# === OS & editor system files ===
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*.bak
+
+# === Logs & temporary files ===
+logs/
+*.log
+
+# === Backup zips ===
+output/
+*.zip
+
+# === VSCode & IDE ===
+.vscode/
+.idea/
+*.code-workspace
+
+# === Node modules (if you ever have frontend scripts) ===
+node_modules/
+
+# === Misc ===
+backupignore.txt~
+*.tmp
